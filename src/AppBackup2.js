@@ -14,10 +14,45 @@ const Status = ({ value }) => {
   );
 };
 
+const Action = ({ value }) => {
+  return (
+          <button onClick={() => markComplete(value)}>Complete</button>
+  );
+};
 
+let markComplete = (data) => { 
+    console.log(data);
+    axios.get('https://api.tvmaze.com/search/shows?q=snow')
+      .then(result => console.log(result));
+ 
+};
 
 
 function App() {
+  const columns = useMemo(
+    () => [
+      {
+        Header: "TV Show",
+        columns: [
+          {
+            Header: "Name",
+            accessor: "taskName"
+          },
+          {
+            Header: "Status",
+            accessor: "status",
+            Cell: ({ cell: { value } }) => <Status value={value} />
+          },
+          {
+            Header: "Status",
+            accessor: "taskId",
+            Cell: ({ cell: { value } }) => <Action value={value} />
+          }
+        ]
+      }
+    ],
+    []
+  );
 
   const [data, setData] = useState([]);
 
@@ -39,7 +74,10 @@ function App() {
    
   return (
     <div className="App">
+      <button onClick={fetchData}>Fetch Data</button>
+      <Table columns={columns} data={data} />
       <SelectTableComponent />
+      
     </div>
   );
 }
