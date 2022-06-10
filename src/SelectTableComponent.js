@@ -1,4 +1,11 @@
 import React from "react";
+import Select from 'react-select';
+
+const options = [
+    { value: 'chocolate', label: 'Chocolate' },
+    { value: 'strawberry', label: 'Strawberry' },
+    { value: 'vanilla', label: 'Vanilla' },
+  ];
 
 const Users = [
   {
@@ -63,10 +70,15 @@ class SelectTableComponent extends React.Component {
       List: Users,
       MasterChecked: false,
       SelectedList: [],
+      selectedOption: null,
     };
   }
 
-
+  handleChange = (selectedOption) => {
+    this.setState({ selectedOption }, () =>
+      console.log(`Option selected:`, this.state.selectedOption)
+    );
+  };
 
   // Select/ UnSelect Table rows
   onMasterCheck(e) {
@@ -113,8 +125,14 @@ class SelectTableComponent extends React.Component {
   }
 
   render() {
+    const { selectedOption } = this.state;
     return (
       <div className="container">
+          <Select
+        value={selectedOption}
+        onChange={this.handleChange}
+        options={options}
+      />
         <div className="row">
           <div className="col-md-12">
             <table className="table">
